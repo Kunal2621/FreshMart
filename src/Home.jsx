@@ -68,6 +68,7 @@ function Home() {
       <footer className="mt-5">
         <p>© 2025 Fresh Mart. All rights reserved.</p>
         <p>Contact us: <a href="KunalPrajapati2621@gmail.com">KunalPrajapati2621@gmail.com</a></p>
+        <p>Call us : 6263389977</p>
       </footer>
     </div>
   );
