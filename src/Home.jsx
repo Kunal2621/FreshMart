@@ -69,6 +69,7 @@ function Home() {
         <p>© 2025 Fresh Mart. All rights reserved.</p>
         <p>Contact us: <a href="KunalPrajapati2621@gmail.com">KunalPrajapati2621@gmail.com</a></p>
         <p>Call us : 6263389977</p>
+        <h1>For support Call Ratan sir</h1>
       </footer>
     </div>
   );
