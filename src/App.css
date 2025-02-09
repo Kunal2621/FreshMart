@@ -1,14 +1,13 @@
-/* Container Styling */
+/* General Styling */
 body {
   font-family: Arial, sans-serif;
   background-color: #f9f9f9;
-  padding: 20px;
-  padding-left: 0px;
-  padding-top: 0px;
-  padding-right: 0px;
+  margin: 0;
+  padding: 0;
   color: #139615;
 }
 
+/* Heading */
 h1 {
   text-align: center;
   color: #2c3e50;
@@ -21,7 +20,7 @@ nav {
   background-color: #1ea81e;
   padding: 15px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   position: sticky;
   top: 0;
@@ -29,7 +28,20 @@ nav {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-nav a {
+/* Website Logo */
+.logo {
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-links a {
   color: white;
   text-decoration: none;
   font-weight: bold;
@@ -38,7 +50,7 @@ nav a {
   border-radius: 5px;
 }
 
-nav a:hover {
+.nav-links a:hover {
   background-color: #34495e;
   color: #58a6ff;
 }
@@ -96,7 +108,7 @@ input[type="checkbox"] {
   cursor: pointer;
 }
 
-/* Item List Styling */
+/* Item List */
 ol {
   list-style: none;
   padding: 0;
@@ -150,28 +162,47 @@ button:hover {
   background-color: #219150;
 }
 
-/* Responsive Design */
-@media (max-width: 600px) {
-  nav {
-      flex-direction: column;
-      align-items: center;
+/* --- RESPONSIVE DESIGN --- */
+
+/* Three-dot Menu Icon */
+.menu-icon {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: white;
+  background: none;
+  border: none;
+}
+
+/* Mobile Responsive Navigation */
+@media (max-width: 768px) {
+  /* Hide default nav links on mobile */
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    width: 200px;
   }
 
-  nav a {
-      padding: 10px;
-      margin-bottom: 5px;
+  /* Show nav links when menu is opened */
+  .nav-links.show {
+    display: flex;
   }
 
-  li {
-      padding: 10px;
+  /* Style mobile nav links */
+  .nav-links a {
+    color: black;
+    padding: 10px;
   }
 
-  img {
-      width: 120px;
-      height: 120px;
-  }
-
-  button {
-      padding: 8px 12px;
+  /* Show three-dot menu button */
+  .menu-icon {
+    display: block;
   }
 }

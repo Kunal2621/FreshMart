@@ -25,9 +25,20 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  flex-direction: column; /* Ensure vertical alignment */
+  align-items: center;
+  justify-content: center;
   min-width: 320px;
   min-height: 100vh;
+  padding: 0 20px;
+}
+
+/* Main container */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 20px;
 }
 
 h1 {
@@ -45,6 +56,8 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  width: auto;
+  max-width: 300px;
 }
 button:hover {
   border-color: #646cff;
@@ -52,6 +65,27 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 2em; /* Reduce font size for smaller screens */
+  }
+
+  .container {
+    padding: 0 10px;
+  }
+
+  button {
+    width: 100%; /* Make buttons full width on mobile */
+    padding: 10px;
+  }
 }
 
 @media (prefers-color-scheme: light) {
