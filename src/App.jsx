@@ -6,46 +6,78 @@ import Order from "./Order";
 import NonVeg from "./NonVeg";
 import ContactUs from "./ContactUs";
 import Cart from "./Cart";
-
-import { useDispatch, useSelector } from "react-redux";
-import "./App.css";
-import NotFound from "./NotFound";
 import Milk from "./Milk";
 import Login from "./Login";
+import NotFound from "./NotFound";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./store";
+import { useState } from "react";
+import "./App.css";
+import { FaBars, FaTimes, FaShoppingCart, FaSignOutAlt, FaUser, FaHome, FaLeaf, FaDrumstickBite, FaInfoCircle, FaClipboardList, FaPhone } from "react-icons/fa";
+
 
 function App() {
+  const [menuOpen, setMenuOpen] = useState(false); // State for mobile menu
+  const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const dispatch =useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const user = useSelector((state) => state.auth.user);
-  
 
   return (
     <BrowserRouter>
-      {/* Navigation Bar (Fixed at Top) */}
+      {/* Navigation Bar */}
       <nav>
-        <Link to="/">Home</Link>
-        <Link to="/veg">Veg</Link>
-        <Link to="/nonveg">Nonveg</Link>
-        <Link to="/about">About</Link>
-        <Link to="/order">Order</Link>
-        <Link to="/contact">Contact</Link>
-        <Link to="/cart" className={totalItems > 0 ? "cart" : ""} data-cart={totalItems > 0 ? totalItems : ''}>Cart ({totalItems})</Link>
-        <Link to="/milk">Milk</Link>
-        {isAuthenticated?<>
-        <span  className="welcome-message">Welcome,{user}</span>
-        <button onClick={() => dispatch(logout())} className="logout-btn">
-  🔒 Logout
-</button>
+        <h2 className="logo">Fresh Mart</h2>
 
-        </>
-       : <Link to="/login">Login</Link>
-}
+        {/* Desktop & Mobile Navigation */}
+        <div className={`nav-links ${menuOpen ? "show" : ""}`}>
+          <Link to="/" onClick={() => setMenuOpen(false)}>
+            <FaHome /> Home
+          </Link>
+          <Link to="/veg" onClick={() => setMenuOpen(false)}>
+            <FaLeaf /> Veg
+          </Link>
+          <Link to="/nonveg" onClick={() => setMenuOpen(false)}>
+            <FaDrumstickBite /> Nonveg
+          </Link>
+          <Link to="/about" onClick={() => setMenuOpen(false)}>
+            <FaInfoCircle /> About
+          </Link>
+          <Link to="/order" onClick={() => setMenuOpen(false)}>
+            <FaClipboardList /> Order
+          </Link>
+          <Link to="/contact" onClick={() => setMenuOpen(false)}>
+            <FaPhone /> Contact
+          </Link>
+          <Link to="/cart" className={totalItems > 0 ? "cart" : ""} data-cart={totalItems > 0 ? totalItems : ''}>
+            <FaShoppingCart /> Cart ({totalItems})
+          </Link>
+          <Link to="/milk" onClick={() => setMenuOpen(false)}>🥛 Milk</Link>
+
+          {isAuthenticated ? (
+            <>
+              <span className="welcome-message">
+                <FaUser /> Welcome, {user}
+              </span>
+              <button onClick={() => dispatch(logout())} className="logout-btn">
+                <FaSignOutAlt /> Logout
+              </button>
+            </>
+          ) : (
+            <Link to="/login" onClick={() => setMenuOpen(false)}>
+              <FaUser /> Login
+            </Link>
+          )}
+        </div>
+
+        {/* Three-dot menu button for mobile */}
+        <button className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? <FaTimes /> : <FaBars />}
+        </button>
       </nav>
 
-      {/* Page Content (Starts Below Navbar) */}
+      {/* Page Content */}
       <div className="container">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -56,8 +88,8 @@ function App() {
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/milk" element={<Milk />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/*" element={<NotFound />} />
-          <Route path="/login" element={<Login/>}/>
         </Routes>
       </div>
     </BrowserRouter>
