@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "./store";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import './Veg.css'; // Importing the CSS file
 import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap for styling
 
@@ -13,20 +13,13 @@ function Veg() {
     const [filterBelow100, setFilterBelow100] = useState(false);
     const [filterAbove200, setFilterAbove200] = useState(false);
     const [filteredItems, setFilteredItems] = useState(vegItems);
+    
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 4;
 
-    // Handle checkbox change
-    const handleBelow100Change = () => {
-        setFilterBelow100(!filterBelow100);
-        setFilterAbove200(false); // Reset other filter
-    };
-
-    const handleAbove200Change = () => {
-        setFilterAbove200(!filterAbove200);
-        setFilterBelow100(false); // Reset other filter
-    };
-
-    // Handle search button click
-    const handleSearch = () => {
+    // Update filteredItems whenever filters or search changes
+    useEffect(() => {
         const updatedItems = vegItems.filter(item => {
             const matchesSearch = item.name.toLowerCase().includes(searchItem.toLowerCase());
             const matchesPrice =
@@ -38,6 +31,33 @@ function Veg() {
         });
 
         setFilteredItems(updatedItems);
+        setCurrentPage(1); // Reset to first page on filter change
+    }, [searchItem, filterBelow100, filterAbove200, vegItems]);
+
+    // Pagination logic
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+    
+    const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+
+    // Handle checkbox change ensuring only one is selected at a time
+    const handleBelow100Change = () => {
+        if (filterBelow100) {
+            setFilterBelow100(false);
+        } else {
+            setFilterBelow100(true);
+            setFilterAbove200(false);
+        }
+    };
+
+    const handleAbove200Change = () => {
+        if (filterAbove200) {
+            setFilterAbove200(false);
+        } else {
+            setFilterAbove200(true);
+            setFilterBelow100(false);
+        }
     };
 
     return (
@@ -53,9 +73,6 @@ function Veg() {
                     value={searchItem}
                     onChange={(e) => setSearchItem(e.target.value)}
                 />
-                <button onClick={handleSearch} className="btn btn-primary btn-sm ms-2">
-                    Search
-                </button>
             </div>
 
             {/* Filter Checkboxes */}
@@ -72,8 +89,8 @@ function Veg() {
 
             {/* Display Filtered Items */}
             <ol className="veg-list">
-                {filteredItems.length > 0 ? (
-                    filteredItems.map((item, index) => (
+                {currentItems.length > 0 ? (
+                    currentItems.map((item, index) => (
                         <li key={index} className="veg-item">
                             <img src={item.image} alt={item.name} />
                             <h3>{item.name}</h3>
@@ -87,6 +104,34 @@ function Veg() {
                     <p className="text-danger">No items found.</p>
                 )}
             </ol>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+                <div className="pagination">
+                    <button
+                        className="btn btn-secondary btn-sm me-2"
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                        disabled={currentPage === 1}
+                    >
+                        Previous
+                    </button>
+                    <span>Page {currentPage} of {totalPages}</span>
+                    <button
+                        className="btn btn-secondary btn-sm ms-2"
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                    >
+                        Next
+                    </button>
+                </div>
+            )}
+
+            {/* Footer */}
+            <footer className="footer mt-4 text-center">
+            <p>© 2025 Fresh Mart. All rights reserved.</p>
+        <p>Contact us: <a href="KunalPrajapati2621@gmail.com">KunalPrajapati2621@gmail.com</a></p>
+        <p>Call us : 6263389977</p>
+            </footer>
         </div>
     );
 }
