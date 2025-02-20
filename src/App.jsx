@@ -14,6 +14,7 @@ import { logout } from "./store";
 import { useState } from "react";
 import "./App.css";
 import { FaBars, FaTimes, FaShoppingCart, FaSignOutAlt, FaUser, FaHome, FaLeaf, FaDrumstickBite, FaInfoCircle, FaClipboardList, FaPhone } from "react-icons/fa";
+import RegistrationForm from "./RegistrationForm";
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
             <FaShoppingCart /> Cart ({totalItems})
           </Link>
           <Link to="/milk" onClick={() => setMenuOpen(false)}>🥛 Milk</Link>
+         
 
           {isAuthenticated ? (
             <>
@@ -81,6 +83,7 @@ function App() {
       <div className="container">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/veg" element={<Veg />} />
           <Route path="/nonveg" element={<NonVeg />} />
           <Route path="/about" element={<About />} />
@@ -90,6 +93,7 @@ function App() {
           <Route path="/milk" element={<Milk />} />
           <Route path="/login" element={<Login />} />
           <Route path="/*" element={<NotFound />} />
+          <Route path="/register" element={<RegistrationForm />} />
         </Routes>
       </div>
     </BrowserRouter>
