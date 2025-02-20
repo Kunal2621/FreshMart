@@ -16,9 +16,9 @@ function Cart() {
 
     let handleCouponPercentage = () => {
         switch (couponCode.toUpperCase()) {
-            case 'GROCERY10': setCouponPercentage(10); break;
-            case 'GROCERY20': setCouponPercentage(20); break;
-            case 'GROCERY30': setCouponPercentage(30); break;
+            case 'RATAN10': setCouponPercentage(10); break;
+            case 'RATAN20': setCouponPercentage(20); break;
+            case 'RATAN30': setCouponPercentage(30); break;
             default: alert("Invalid Code"); break;
         }
     };

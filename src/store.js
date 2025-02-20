@@ -144,17 +144,32 @@ const authSlice = createSlice({
 });
 
 
+// Ragistration slice
+const registrationSlice = createSlice({
+    name: "registration",
+    initialState: { users: [] }, // Store multiple users  with the help of array
+    reducers: {
+      registerUser: (state, action) => {
+        state.users.push(action.payload); // Add new user to the array
+      },
+    },
+  });
+
+
 
 // configure the store
 const store =configureStore({
     reducer :{product:productSlice.reducer,
              cart :cartSlice.reducer,
              purchaseDetails :purchaseDetailsSlice.reducer,
-             auth :authSlice.reducer
+             auth :authSlice.reducer,
+             registration: registrationSlice.reducer
     }
 })
+
 //export the store
 export default store;
 export const {addToCart,increment,decrement,remove,clearCart}=cartSlice.actions;
 export const { setPurchaseDetails } = purchaseDetailsSlice.actions;
 export const {login,logout}=authSlice.actions;
+export const { registerUser } = registrationSlice.actions;

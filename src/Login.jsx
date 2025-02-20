@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "./store";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Link } from "react-router-dom";
+
 
 function Login() {
     const [credentials, setCredentials] = useState({ username: "", password: "" });
@@ -13,12 +15,25 @@ function Login() {
         setCredentials({ ...credentials, [e.target.name]: e.target.value });
     };
 
+    // const onLogin = () => {
+    //     if (credentials.username === "Kunal" && credentials.password === "Kunal@123") {
+    //         dispatch(login(credentials.username));
+    //         navigate('/home');
+    //     } else {
+    //         alert("Enter the correct credentials");
+    //     }
+    // };
+    const users = useSelector((state) => state.registration.users); // Get users from Redux store
     const onLogin = () => {
-        if (credentials.username === "Kunal" && credentials.password === "Kunal@123") {
-            dispatch(login(credentials.username));
+        
+    
+        const user = users.find(user => user.username === credentials.username && user.password === credentials.password);
+    
+        if (user) {
+            dispatch(login(user.username)); // Assuming you have a login action
             navigate('/home');
         } else {
-            alert("Enter the correct credentials");
+            alert("Invalid credentials. Please try again.");
         }
     };
 
@@ -35,6 +50,9 @@ function Login() {
                     <input type="password" className="form-control" name="password" value={credentials.password} onChange={handleChange} />
                 </div>
                 <button className="btn btn-primary w-100" onClick={onLogin}>Login</button>
+                <p className="text-center mt-3">
+                    New here? <Link to="/register">Create an account</Link>
+                </p>
             </div>
         </div>
     );
