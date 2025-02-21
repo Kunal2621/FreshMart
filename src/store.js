@@ -115,11 +115,11 @@ const cartSlice =createSlice({
 const purchaseDetailsSlice = createSlice({
     name: 'purchaseDetails',
     initialState: {
-        purchaseDetails: {}  // Initialize as an object
+        orders: []  // Initialize as an array
     },
     reducers: {
         setPurchaseDetails: (state, action) => {
-            state.purchaseDetails = action.payload; // Directly update the purchaseDetails object
+            state.orders.push(action.payload); // Directly update the purchaseDetails object
         }
     }
 });

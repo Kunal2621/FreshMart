@@ -1,15 +1,44 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
+import axios from "axios";
 
 function ContactUs() {
     const [submitted, setSubmitted] = useState(false);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setSubmitted(true);
-        setTimeout(() => setSubmitted(false), 3000); // Hide message after 3 seconds
+    // form data for axios
+
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        message: "",
+    });
+    // for error 
+    const [error, setError] = useState("");
+
+    
+    // for changing the input 
+
+    const handleChange =  (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+    
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post("http://localhost:2720/put", formData);
+            console.log(response.data);
+            setSubmitted(true);
+            setError(""); // Clear errors
+            setFormData({ name: "", email: "", message: "" }); // Reset form
+            setTimeout(() => setSubmitted(false), 3000);
+        } catch (err) {
+            console.error("Error submitting form:", err);
+            setError("Something went wrong. Please try again later.");
+        }
+    };
+    
 
     return (
         <div className="container mt-5">
@@ -36,15 +65,31 @@ function ContactUs() {
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
                             <label className="form-label fw-bold">Name</label>
-                            <input type="text" className="form-control border-success" placeholder="Enter your name" required />
+                            <input type="text" className="form-control border-success"
+                             placeholder="Enter your name" 
+                               name="name"
+                               value={formData.name}
+                               onChange={handleChange}
+                             required />
                         </div>
+
                         <div className="mb-3">
                             <label className="form-label fw-bold">Email</label>
-                            <input type="email" className="form-control border-success" placeholder="Enter your email" required />
+                            <input type="email" className="form-control border-success"
+                             placeholder="Enter your email"
+                             name="email"
+                             value={formData.email}
+                             onChange={handleChange}
+                             required />
                         </div>
+
                         <div className="mb-3">
                             <label className="form-label fw-bold">Message</label>
-                            <textarea className="form-control border-success" rows="3" placeholder="Your message" required></textarea>
+                            <textarea className="form-control border-success" rows="3" placeholder="Your message"
+                               name="message"
+                               value={formData.message}
+                               onChange={handleChange}
+                            required></textarea>
                         </div>
                         <button type="submit" className="btn btn-success w-100">Submit</button>
                     </form>
