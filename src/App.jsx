@@ -15,6 +15,7 @@ import { useState } from "react";
 import "./App.css";
 import { FaBars, FaTimes, FaShoppingCart, FaSignOutAlt, FaUser, FaHome, FaLeaf, FaDrumstickBite, FaInfoCircle, FaClipboardList, FaPhone } from "react-icons/fa";
 import RegistrationForm from "./RegistrationForm";
+import Admin from './Admin';
 
 
 function App() {
@@ -55,7 +56,6 @@ function App() {
             <FaShoppingCart /> Cart ({totalItems})
           </Link>
           <Link to="/milk" onClick={() => setMenuOpen(false)}>🥛 Milk</Link>
-         
 
           {isAuthenticated ? (
             <>
@@ -94,6 +94,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/*" element={<NotFound />} />
           <Route path="/register" element={<RegistrationForm />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </div>
     </BrowserRouter>
